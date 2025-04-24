@@ -211,46 +211,6 @@ namespace TEXT_RPG
                 }
             }
         }
-
-        //void CancelQuest()
-        //{
-        //    bool isRunning = true;
-        //    while (isRunning)
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine("-퀘스트창- '취소' \n");
-        //        ShowQuest(0);
-        //        Console.WriteLine("\n 취소할 퀘스트를 고르세요.\n 0.나가기");
-        //        string? input = Console.ReadLine();
-        //        if (int.TryParse(input, out int select))
-        //        {
-        //            if (select == 0)
-        //            {
-        //                isRunning = false;
-        //                QuestWindow();
-        //            }
-        //            else if (select <= Quests.Count)
-        //            {
-        //                if (Quests[select - 1].IsActive)
-        //                {
-        //                    Quests[select - 1].IsActive = false;
-        //                }
-        //                else
-        //                {
-        //                    Console.WriteLine("수주한 퀘스트가 아닙니다!");
-        //                    Thread.Sleep(1000);
-        //                }
-
-        //            }
-        //            else
-        //            {
-        //                Console.WriteLine("올바른 입력이 아닙니다");
-        //                Thread.Sleep(1000);
-        //            }
-        //        }
-        //    }
-        //}
-
         public void DetailAchieve(int select)
         {
             int index = select - 1;
@@ -272,7 +232,7 @@ namespace TEXT_RPG
                 }
                 else
                 {
-                    Console.WriteLine($"{Achieves[index].Title} \n\n{Achieves[index].Etc} {Achieves[index].CurrentCount} / {Achieves[index].TargetCount} \n");
+                    Console.WriteLine($"{Achieves[index].Title} \n\n{Achieves[index].Etc} -완료 \n");
                 }
                 if (Achieves[index].IsClear == true && Achieves[index].IsReward == false) Console.WriteLine("1. 보상받기 \n");                              //업적달성시 보상받기 텍스트보임
                 Console.WriteLine("0. 돌아가기 \n");
