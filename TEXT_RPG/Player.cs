@@ -149,8 +149,29 @@ namespace TEXT_RPG
             inventory.Add(item);
         }
 
-       
+        public void UseItem(Item item) // 포션 사용
+        {
+            if (item.Type == "HP" && CurrentHP < TotalMaxHP && item.IsHave)
+            {
+                CurrentHP += item.RecoverHP ?? 0;
+                if (CurrentHP > TotalMaxHP)
+                    CurrentHP = TotalMaxHP;
 
+                Console.WriteLine($"{Name}을 사용하여 HP {item.RecoverHP} 회복했습니다.");
+            }
+            else if (item.Type == "MP" && CurrentMP < TotalMaxMP && item.IsHave)
+            {
+                CurrentMP += item.RecoverMP ?? 0;
+                if (CurrentMP > TotalMaxMP)
+                    CurrentMP = TotalMaxMP;
+
+                Console.WriteLine($"{Name}을 사용하여 MP {item.RecoverMP} 회복했습니다.");
+            }
+            else
+            {
+                Console.WriteLine($"{Name}을 사용할 수 없습니다.");
+            }
+        }
     }
 
 }
