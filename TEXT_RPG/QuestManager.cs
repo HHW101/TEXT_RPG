@@ -248,7 +248,9 @@ namespace TEXT_RPG
                         {
                             //보상받기
                             Achieves[index].IsReward = true;
+                            Reward(Achieves[index]);
                             Console.WriteLine("보상을 받았습니다.");
+                            Thread.Sleep(1000);
                         }
                         else 
                         {
@@ -475,16 +477,18 @@ namespace TEXT_RPG
         }
         public void Reward(Quest Quests)
         {
-            if (Quests.Level == 0)
+            if(Quests.Type == QuestType.Hunting && Quests.Type == QuestType.Stage)
             {
-                //player 골드 , 경험치 소량증가
+                Console.WriteLine($"+{Quests.Gold} Gold +{Quests.Exp} Exp");
                 Console.WriteLine($"{Quests.Title} 보상받기 완료");
                 Thread.Sleep(1000);
 
             }
             if (Quests.Type == QuestType.Hidden)
             {
-
+                Console.WriteLine($"+{Quests.Gold} Gold +{Quests.Exp} Exp");
+                Console.WriteLine($"업적 {Quests.Title} 보상받기 완료");
+                Thread.Sleep(1000);
             }
         }
         
