@@ -30,7 +30,7 @@ namespace TEXT_RPG
             Lobbylayout = new Layout();
             Lobbylayout.SplitRows(new Layout(new Panel(
                 new FigletText("TEXT MAPLE RPG")).Expand().SquareBorder()).Ratio(3),
-                new Layout("Start").Ratio(1), 
+                new Layout("Start").Ratio(1),
                 new Layout("End").Ratio(1));
             int index = 0;
             ConsoleKeyInfo key;
@@ -43,7 +43,7 @@ namespace TEXT_RPG
                 {
                     Lobbylayout["Start"].Update(
                  new Panel(new Text("\n\n-> 시작\n", new Style(Color.Yellow)).Centered()).Expand()
-                    .Padding(1,1).NoBorder());
+                    .Padding(1, 1).NoBorder());
                     Lobbylayout["End"].Update(
                  new Panel(new Text("\n종료\n").Centered())
                     .Padding(1, 1).Expand().NoBorder());
@@ -83,7 +83,7 @@ namespace TEXT_RPG
             charaLayout = new Layout();
             charaLayout.SplitRows(new Layout("menu").Ratio(1), new Layout("name").Ratio(1), new Layout().SplitColumns(new Layout("status").Ratio(3), new Layout("select").Ratio(1)).Ratio(5)
                 );
-            charaLayout["menu"].Update(new Panel(new Text("당신의 이름은 무엇입니까?").Centered()).Expand().SafeBorder().NoBorder().Padding(1,1,1,1));
+            charaLayout["menu"].Update(new Panel(new Text("당신의 이름은 무엇입니까?").Centered()).Expand().SafeBorder().NoBorder().Padding(1, 1, 1, 1));
             charaLayout["name"].Update(new Panel(new Text("-> ").Centered()).Expand()); //이름 
             charaLayout["status"].Update(new Panel(new Text("").Centered()).Expand()); //직업별 스텟
             charaLayout["select"].Update(new Panel(new Text("").Centered()).Expand()); //선택지
@@ -248,7 +248,7 @@ namespace TEXT_RPG
         }
         public int SelectPlayerLayout() //플레이어 정보 확인
         {
-           
+
             int index = 1;
             ConsoleKeyInfo key;
             bool isEnd = false;
@@ -309,7 +309,7 @@ namespace TEXT_RPG
         }
         public void InitShop() //샵 레이아웃
         {
-            
+
             shopLayout = new Layout();
 
             shopLayout.SplitRows(
@@ -317,7 +317,7 @@ namespace TEXT_RPG
                 new Layout("ItemList").Ratio(5)
                     , new Layout("Order").Ratio(2)
                 );
-  
+
         }
         public Item ShopBuy(Shop shop)
         {
@@ -447,7 +447,7 @@ namespace TEXT_RPG
             }
             return index;
         }
-        public void ShopResult(string message,Shop shop) //실패
+        public void ShopResult(string message, Shop shop) //실패
         {
             shopLayout["Order"].Update(
               new Panel(message)
@@ -489,9 +489,9 @@ namespace TEXT_RPG
         }
         public int ShopSellConfirm(string message)
         {
-            int index =1;
+            int index = 1;
             bool isEnd = false;
-            
+
             Layout layout = shopLayout["Order"];
             List<String> menu = new List<String>();
             ConsoleKeyInfo key;
@@ -499,13 +499,13 @@ namespace TEXT_RPG
             menu.Add("아니오");
             while (!isEnd)
             {
-                string a = message+"\n";
+                string a = message + "\n";
                 for (int i = 0; i < menu.Count; i++)
                 {
                     if (i + 1 == index)
                         a += ("[bold]->" + menu[i] + "[/]\n\n");
                     else
-                        a += ( menu[i] + "\n\n");
+                        a += (menu[i] + "\n\n");
                 }
                 layout.Update(
                 new Panel(a)
