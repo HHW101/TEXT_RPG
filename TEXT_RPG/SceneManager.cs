@@ -27,36 +27,36 @@ namespace TEXT_RPG
         Layout shopLayout;
         public int SetLobbyScene() //로비 씬 시작 
         {
-            Lobbylayout= new Layout();
+            Lobbylayout = new Layout();
             Lobbylayout.SplitRows(new Layout(new Panel(
-                new FigletText("TEXT MAPLE RPG")).Expand().SquareBorder()).Ratio(3), 
-                new Layout("Start").Ratio(1),
+                new FigletText("TEXT MAPLE RPG")).Expand().SquareBorder()).Ratio(3),
+                new Layout("Start").Ratio(1), 
                 new Layout("End").Ratio(1));
             int index = 0;
             ConsoleKeyInfo key;
             bool isEnd = false;
 
-      
+
             while (!isEnd)
             {
                 if (index == 0)
                 {
                     Lobbylayout["Start"].Update(
-                 new Panel("[blink]시작[/]").AsciiBorder()
-                    .Padding(1, 1));
+                 new Panel(new Text("\n\n-> 시작\n", new Style(Color.Yellow)).Centered()).Expand()
+                    .Padding(1,1).NoBorder());
                     Lobbylayout["End"].Update(
-                 new Panel("종료").AsciiBorder()
-                    .Padding(1, 1));
+                 new Panel(new Text("\n종료\n").Centered())
+                    .Padding(1, 1).Expand().NoBorder());
 
                 }
                 if (index == 1)
                 {
                     Lobbylayout["Start"].Update(
-                 new Panel("시작").AsciiBorder()
-                    .Padding(1, 1));
+                 new Panel(new Text("\n\n시작\n").Centered()).Expand()
+                    .Padding(1, 1).NoBorder());
                     Lobbylayout["End"].Update(
-                 new Panel("[blink]종료[/]").AsciiBorder()
-                    .Padding(1, 1));
+                 new Panel(new Text("\n-> 종료\n", new Style(Color.Yellow)).Centered()).Expand()
+                    .Padding(1, 1).Expand().NoBorder());
                 }
                 AnsiConsole.Clear();
                 AnsiConsole.Write(Lobbylayout);
@@ -64,7 +64,7 @@ namespace TEXT_RPG
                 switch (key.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        index=1-index;
+                        index = 1 - index;
                         break;
 
                     case ConsoleKey.DownArrow:
@@ -81,10 +81,10 @@ namespace TEXT_RPG
         public void CharaLayout() //캐릭터 선택 창
         {
             charaLayout = new Layout();
-            charaLayout.SplitRows(new Layout("menu").Ratio(1), new Layout("name").Ratio(1),new Layout().SplitColumns(new Layout("status").Ratio(3),new Layout("select").Ratio(1)).Ratio(5)
+            charaLayout.SplitRows(new Layout("menu").Ratio(1), new Layout("name").Ratio(1), new Layout().SplitColumns(new Layout("status").Ratio(3), new Layout("select").Ratio(1)).Ratio(5)
                 );
-            charaLayout["menu"].Update(new Panel(new Text("이름 입력").Centered()).Expand());
-            charaLayout["name"].Update(new Panel(new Text("").Centered()).Expand()); //이름 
+            charaLayout["menu"].Update(new Panel(new Text("당신의 이름은 무엇입니까?").Centered()).Expand().SafeBorder().NoBorder().Padding(1,1,1,1));
+            charaLayout["name"].Update(new Panel(new Text("-> ").Centered()).Expand()); //이름 
             charaLayout["status"].Update(new Panel(new Text("").Centered()).Expand()); //직업별 스텟
             charaLayout["select"].Update(new Panel(new Text("").Centered()).Expand()); //선택지
             AnsiConsole.Console.Clear();
@@ -93,23 +93,24 @@ namespace TEXT_RPG
         public string setName() //이름 설정
         {
             ConsoleKeyInfo key;
-            string input="";
-            while (true) {
+            string input = "";
+            while (true)
+            {
                 key = Console.ReadKey(true);
-        if (key.Key == ConsoleKey.Backspace &&input.Length > 0)
-            {
-                input =input.Remove(input.Length - 1);
-                
-            }
-            else if(key.Key == ConsoleKey.Enter)
-            {
-                break;
-            }
-            else if(!char.IsControl(key.KeyChar)&&key.KeyChar != ' ')
-                    input+=key.KeyChar;
+                if (key.Key == ConsoleKey.Backspace && input.Length > 0)
+                {
+                    input = input.Remove(input.Length - 1);
+
+                }
+                else if (key.Key == ConsoleKey.Enter)
+                {
+                    break;
+                }
+                else if (!char.IsControl(key.KeyChar) && key.KeyChar != ' ')
+                    input += key.KeyChar;
 
                 AnsiConsole.Console.Clear();
-                charaLayout["name"].Update(new Panel(new Text("\n"+input).Centered()).Expand());
+                charaLayout["name"].Update(new Panel(new Text("\n" + input).Centered()).Expand());
                 AnsiConsole.Write(charaLayout);
 
             }
@@ -127,7 +128,7 @@ namespace TEXT_RPG
                 for (int i = 0; i < jobs.Count; i++)
                 {
                     if (i + 1 == index)
-                        a += ("[bold]-> " + i + ": " + jobs[i].Name + "[/]\n\n");
+                        a += ("[Yellow]-> " + i + ": " + jobs[i].Name + "[/]\n\n");
                     else
                         a += (i + ": " + jobs[i].Name + "\n\n");
                 }
@@ -141,7 +142,7 @@ namespace TEXT_RPG
                   .Padding(0, 0));
                 AnsiConsole.Clear();
                 AnsiConsole.Write(charaLayout);
-               
+
                 key = Console.ReadKey(true);
                 switch (key.Key)
                 {
@@ -164,7 +165,7 @@ namespace TEXT_RPG
             return index;
         }
 
-       
+
         public int MenuLayout() //메뉴
         {
             var layout = new Layout();
@@ -174,7 +175,7 @@ namespace TEXT_RPG
                 new Layout("Middle")
                     .SplitColumns(new Layout().SplitRows(
                         new Layout("dungeon"),
-                        new Layout("shop"),new Layout("player"),new Layout("quest")).Ratio(1),new Layout("MAP").Ratio(4))
+                        new Layout("shop"), new Layout("player"), new Layout("quest")).Ratio(1), new Layout("MAP").Ratio(4))
                 );
             int index = 1;
             ConsoleKeyInfo key;
@@ -184,31 +185,31 @@ namespace TEXT_RPG
                 switch (index)
                 {
                     case 1:
-                  layout["dungeon"].Update(new Panel("[blink]던전[/]") .Expand()  .Padding(0, 0));
+                        layout["dungeon"].Update(new Panel("[Yellow]->던전[/]").Expand().Padding(0, 0));
                         layout["shop"].Update(new Panel("상점").Expand().Padding(0, 0));
                         layout["player"].Update(new Panel("플레이어 정보").Expand().Padding(0, 0));
                         layout["quest"].Update(new Panel("퀘스트").Expand().Padding(0, 0));
                         break;
                     case 2:
                         layout["dungeon"].Update(new Panel("던전").Expand().Padding(0, 0));
-                        layout["shop"].Update(new Panel("[blink]상점[/]").Expand().Padding(0, 0));
+                        layout["shop"].Update(new Panel("[Yellow]->상점[/]").Expand().Padding(0, 0));
                         layout["player"].Update(new Panel("플레이어 정보").Expand().Padding(0, 0));
                         layout["quest"].Update(new Panel("퀘스트").Expand().Padding(0, 0));
                         break;
                     case 3:
                         layout["dungeon"].Update(new Panel("던전").Expand().Padding(0, 0));
                         layout["shop"].Update(new Panel("상점").Expand().Padding(0, 0));
-                        layout["player"].Update(new Panel("[blink]플레이어 정보[/]").Expand().Padding(0, 0));
+                        layout["player"].Update(new Panel("[Yellow]->플레이어 정보[/]").Expand().Padding(0, 0));
                         layout["quest"].Update(new Panel("퀘스트").Expand().Padding(0, 0));
                         break;
                     case 4:
                         layout["dungeon"].Update(new Panel("던전").Expand().Padding(0, 0));
                         layout["shop"].Update(new Panel("상점").Expand().Padding(0, 0));
                         layout["player"].Update(new Panel("플레이어 정보").Expand().Padding(0, 0));
-                        layout["quest"].Update(new Panel("[blink]퀘스트[/]").Expand().Padding(0, 0));
+                        layout["quest"].Update(new Panel("[Yellow]->퀘스트[/]").Expand().Padding(0, 0));
                         break;
                 }
-                
+
                 AnsiConsole.Clear();
                 AnsiConsole.Write(layout);
                 key = Console.ReadKey(true);
@@ -235,14 +236,14 @@ namespace TEXT_RPG
         }
         public int PlayerLayout() //플레이어 정보 확인
         {
-           playerlayout = new Layout();
+            playerlayout = new Layout();
 
             playerlayout.SplitRows(
                 new Layout(new Panel(new Text("Player").Centered()).Expand()).Size(3),
                 new Layout("Middle")
                     .SplitColumns(new Layout().SplitRows(
                         new Layout("status"),
-                        new Layout("item"), new Layout("skill"), new Layout("back" )).Ratio(1), new Layout("MAP").Ratio(4))
+                        new Layout("item"), new Layout("skill"), new Layout("back")).Ratio(1), new Layout("MAP").Ratio(4))
                 );
             int index = 1;
             ConsoleKeyInfo key;
@@ -252,28 +253,28 @@ namespace TEXT_RPG
                 switch (index)
                 {
                     case 1:
-                        playerlayout["status"].Update(new Panel("[blink]스테이터스[/]").Expand().Padding(0, 0));
+                        playerlayout["status"].Update(new Panel("[Yellow]->스테이터스[/]").Expand().Padding(0, 0));
                         playerlayout["item"].Update(new Panel("아이템").Expand().Padding(0, 0));
                         playerlayout["skill"].Update(new Panel("스킬").Expand().Padding(0, 0));
                         playerlayout["back"].Update(new Panel("뒤로").Expand().Padding(0, 0));
                         break;
                     case 2:
                         playerlayout["status"].Update(new Panel("스테이터스").Expand().Padding(0, 0));
-                        playerlayout["item"].Update(new Panel("[blink]아이템[/]").Expand().Padding(0, 0));
+                        playerlayout["item"].Update(new Panel("[Yellow]->아이템[/]").Expand().Padding(0, 0));
                         playerlayout["skill"].Update(new Panel("스킬").Expand().Padding(0, 0));
                         playerlayout["back"].Update(new Panel("뒤로").Expand().Padding(0, 0));
                         break;
                     case 3:
                         playerlayout["status"].Update(new Panel("스테이터스").Expand().Padding(0, 0));
                         playerlayout["item"].Update(new Panel("아이템").Expand().Padding(0, 0));
-                        playerlayout["skill"].Update(new Panel("[blink]스킬[/]").Expand().Padding(0, 0));
+                        playerlayout["skill"].Update(new Panel("[Yellow]->스킬[/]").Expand().Padding(0, 0));
                         playerlayout["back"].Update(new Panel("뒤로").Expand().Padding(0, 0));
                         break;
                     case 4:
                         playerlayout["status"].Update(new Panel("스테이터스").Expand().Padding(0, 0));
                         playerlayout["item"].Update(new Panel("아이템").Expand().Padding(0, 0));
                         playerlayout["skill"].Update(new Panel("스킬").Expand().Padding(0, 0));
-                        playerlayout["back"].Update(new Panel("[blink]뒤로[/]").Expand().Padding(0, 0));
+                        playerlayout["back"].Update(new Panel("[Yellow]->뒤로[/]").Expand().Padding(0, 0));
                         break;
 
                 }
@@ -305,7 +306,7 @@ namespace TEXT_RPG
         public int InvenLayout(Player player) //인벤토리 보여줌 클릭한 물체의 인덱스 보내줌
         {
             int input = 0;
-          
+
 
             int index = 0;
             int page = 1;
@@ -320,12 +321,12 @@ namespace TEXT_RPG
             while (!isEnd)
             {
                 string txt = "";
-                if (maxIndex > page*num)
+                if (maxIndex > page * num)
                 {
                     for (int i = (page - 1) * num; i <= page * num; i++)
                     {
                         if (input == i)
-                            txt += "[bold]->" + player.inventory[i].show() + "[/]\n\n";
+                            txt += "[Yellow]->" + player.inventory[i].show() + "[/]\n\n";
                         else
                             txt += player.inventory[i].show() + "\n\n";
                     }
@@ -335,11 +336,11 @@ namespace TEXT_RPG
                     for (int i = (page - 1) * num; i <= maxIndex; i++)
                     {
                         if (input == i)
-                            txt += "[bold]->" + player.inventory[i].show() + "[/]\n\n";
+                            txt += "[Yellow]->" + player.inventory[i].show() + "[/]\n\n";
                         else
                             txt += player.inventory[i].show() + "\n\n";
                     }
-             }
+                }
 
                 playerlayout["map"].Update(
                   new Panel(txt)
@@ -391,7 +392,7 @@ namespace TEXT_RPG
                      .Expand()
                      .Padding(0, 0));
             AnsiConsole.Write(playerlayout);
-            
+
             while (true)
             {
                 ConsoleKeyInfo key = Console.ReadKey(true);
@@ -417,17 +418,17 @@ namespace TEXT_RPG
                     break;
             }
         }
-        private int ScrollMenu(Player player,Layout lay)
+        private int ScrollMenu(Player player, Layout lay)
         {
-            int input=0;
+            int input = 0;
             string txt = "";
-            
+
             int index = 0;
             int page = 1;
-            
+
             int num = 5;
-            int maxIndex = player.inventory.Count-1;
-            int maxPage = maxIndex / num+1;
+            int maxIndex = player.inventory.Count - 1;
+            int maxPage = maxIndex / num + 1;
             if (maxIndex % num == 0)
                 maxPage--;
             ConsoleKeyInfo key;
@@ -436,7 +437,7 @@ namespace TEXT_RPG
             {
                 if (maxIndex > page)
                 {
-                    for (int i = (page-1)*num; i < page * num; i++)
+                    for (int i = (page - 1) * num; i < page * num; i++)
                     {
                         if (input == 1)
                             txt = "[bold]->" + player.inventory[i].show() + "[/]\n";
@@ -468,8 +469,8 @@ namespace TEXT_RPG
                 switch (key.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        if(input>0)
-                        input--;
+                        if (input > 0)
+                            input--;
                         break;
 
                     case ConsoleKey.DownArrow:
@@ -479,20 +480,20 @@ namespace TEXT_RPG
                     case ConsoleKey.LeftArrow:
                         if (page > 1)
                         {
-                            
+
                             page--;
-                            input =(page - 1)*num;
+                            input = (page - 1) * num;
                         }
                         break;
                     case ConsoleKey.RightArrow:
-                        if (page <maxPage )
+                        if (page < maxPage)
                             page++;
                         input = (page - 1) * num;
                         break;
                     case ConsoleKey.Enter:
                         break;
                 }
-            
+
 
 
 
@@ -509,11 +510,11 @@ namespace TEXT_RPG
                 new Layout("ItemList").Ratio(5)
                     , new Layout("Order").Ratio(1)
                 );
-            
+
             int page = 1;
 
             int num = 10;
-            int maxIndex = ItemManager.Instance().items.Count-1;
+            int maxIndex = ItemManager.Instance().items.Count - 1;
             int maxPage = maxIndex / num + 1;
             if (maxIndex % num == 0)
                 maxPage--;
@@ -527,8 +528,8 @@ namespace TEXT_RPG
                     for (int i = (page - 1) * num; i <= page * num; i++)
                     {
 
-                        if ( index== i)
-                            txt += "[bold]->" + ItemManager.Instance().items[i].showS() + "[/]\n\n";
+                        if (index == i)
+                            txt += "[Yellow]->" + ItemManager.Instance().items[i].showS() + "[/]\n\n";
                         else
                             txt += ItemManager.Instance().items[i].show() + "\n\n";
                     }
@@ -538,7 +539,7 @@ namespace TEXT_RPG
                     for (int i = (page - 1) * num; i <= maxIndex; i++)
                     {
                         if (index == i)
-                            txt += "[bold]->" + ItemManager.Instance().items[i].showS() + "[/]\n\n";
+                            txt += "[Yellow]->" + ItemManager.Instance().items[i].showS() + "[/]\n\n";
                         else
                             txt += ItemManager.Instance().items[i].show() + "\n\n";
                     }
@@ -559,7 +560,7 @@ namespace TEXT_RPG
                         break;
 
                     case ConsoleKey.DownArrow:
-                        if (index < page*num)
+                        if (index < page * num)
                             index++;
                         break;
                     case ConsoleKey.LeftArrow:
@@ -587,20 +588,20 @@ namespace TEXT_RPG
             return index;
         }
 
-        public void InitBattleScene(List<Monster> mons,string room,Player player,string a)
+        public void InitBattleScene(List<Monster> mons, string room, Player player, string a)
         {
             AnsiConsole.Clear();
-            CreateBattleLayout(EnemyPanel(mons),RoomPanel(room),INFOPanel(player),DiagLog(a));
+            CreateBattleLayout(EnemyPanel(mons), RoomPanel(room), INFOPanel(player), DiagLog(a));
             AnsiConsole.Write(battlelayout);
             //Console.ReadKey(true);
 
         }
-        
+
         public void UpdateBattleScene(Player player)
         {
-            
+
         }
-        private int makeSelect(List<string> menu,Layout layout)
+        private int makeSelect(List<string> menu, Layout layout)
         {
             int index = 1;
             ConsoleKeyInfo key;
@@ -649,13 +650,13 @@ namespace TEXT_RPG
             bool isEnd = false;
             while (!isEnd)
             {
-                string a="\n";
-                for(int i=0;i<menu.Count; i++)
+                string a = "\n";
+                for (int i = 0; i < menu.Count; i++)
                 {
                     if (i + 1 == index)
-                        a += ("[bold]-> "+i+": " + menu[i] + "[/]\n\n");
+                        a += ("[Yellow]-> " + i + ": " + menu[i] + "[/]\n\n");
                     else
-                        a += (i + ": " + menu[i]+"\n\n");
+                        a += (i + ": " + menu[i] + "\n\n");
                 }
                 battlelayout["OrderInfo"].Update(
                 new Panel(a)
@@ -668,31 +669,31 @@ namespace TEXT_RPG
                 {
                     case ConsoleKey.UpArrow:
                         index++;
-                    break;
+                        break;
 
                     case ConsoleKey.DownArrow:
                         index--;
-                    break;
+                        break;
                     case ConsoleKey.Enter:
                         isEnd = true;
                         break;
-                } 
-                if(index<1)
-                    index=menu.Count;
-                if(index>menu.Count)
-                    index=1;
+                }
+                if (index < 1)
+                    index = menu.Count;
+                if (index > menu.Count)
+                    index = 1;
             }
             return index;
         } //플레이어 전투시
 
-        private  void CreateBattleLayout(Panel Mon, Panel room, Panel info, Panel dialog)
+        private void CreateBattleLayout(Panel Mon, Panel room, Panel info, Panel dialog)
         {
             battlelayout = new Layout();
 
             battlelayout.SplitRows(
                 new Layout("RoomInfo").Size(3),
-                new Layout("Middle").SplitColumns(                      
-                    new Layout("MonInfo").Ratio(3), 
+                new Layout("Middle").SplitColumns(
+                    new Layout("MonInfo").Ratio(3),
                     new Layout("RightRight").Ratio(1)),
                 new Layout("Bottom")
                     .SplitColumns(
@@ -715,7 +716,7 @@ namespace TEXT_RPG
             battlelayout["MonInfo"].Update(
             Mon);
 
-         
+
         }
         static Panel DiagLog(string a)
         {
@@ -752,6 +753,6 @@ namespace TEXT_RPG
                      .Expand()
                      .Padding(0, 0);
         }
-      
+
     }
 }

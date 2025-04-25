@@ -15,13 +15,13 @@ namespace TEXT_RPG
         public int ID { get; set; }
         public string Name { get; set; } // 스킬 이름
         public string Description { get; set; } // 설명
-        public int MPCost { get;set; } // 마나 소모량
+        public int MPCost { get; set; } // 마나 소모량
         public float Damage { get; set; } // 스킬 데미지
         public TYPE Type { get; set; } // 스킬 타입
-        public int TargetNum { get;     set; }// 스킬 타겟 마릿수
+        public int TargetNum { get; set; }// 스킬 타겟 마릿수
         public int Critical { get; set; } //크리티컬 확률
 
-        public Skill (int _Id, string _name, string _description, int _mPCost, float _damage, TYPE _type, int _targetNum, int _critical = 0)
+        public Skill(int _Id, string _name, string _description, int _mPCost, float _damage, TYPE _type, int _targetNum, int _critical = 0)
         {
             ID = _Id;
             Name = _name;
@@ -36,7 +36,7 @@ namespace TEXT_RPG
         public string show()
         {
             string s = "";
-            s=($" {Name} 피해량 : {Damage} 타겟수:{TargetNum} (MP: {MPCost})");
+            s = ($" {Name} 피해량 : {Damage} 타겟수:{TargetNum} (MP: {MPCost})");
             return s;
         }
 
