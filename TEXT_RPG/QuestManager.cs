@@ -19,6 +19,7 @@ namespace TEXT_RPG
         bool addQuest_3 = false;
         bool addAchieve = false;
 
+        private Player player;
         public List<Quest> Quests { get; set; }
         public List<Quest> Achieves { get; set; }
         private static QuestManager instance;
@@ -479,17 +480,22 @@ namespace TEXT_RPG
         {
             if(Quests.Type == QuestType.Hunting && Quests.Type == QuestType.Stage)
             {
+                player.Gold += Quests.Gold;
+                player.Exp += Quests.Exp;
                 Console.WriteLine($"+{Quests.Gold} Gold +{Quests.Exp} Exp");
-                Console.WriteLine($"{Quests.Title} 보상받기 완료");
-                Thread.Sleep(1000);
+                
+                if (Quests.Type == QuestType.Hunting || Quests.Type == QuestType.Stage)
+                {
+                    Console.WriteLine($"{Quests.Title} 보상받기 완료");
+                }
+                else if (Quests.Type == QuestType.Hidden)
+                {
+                    Console.WriteLine($"업적 {Quests.Title} 보상받기 완료");
+                }
+                    Thread.Sleep(1000);
 
             }
-            if (Quests.Type == QuestType.Hidden)
-            {
-                Console.WriteLine($"+{Quests.Gold} Gold +{Quests.Exp} Exp");
-                Console.WriteLine($"업적 {Quests.Title} 보상받기 완료");
-                Thread.Sleep(1000);
-            }
+            
         }
         
 
