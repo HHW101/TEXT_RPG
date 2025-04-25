@@ -109,7 +109,7 @@ namespace TEXT_RPG
                 Console.WriteLine("4.플레이어 테스트");
                 Console.WriteLine("5.상점 테스트");
 
-                
+                player.Gold = 10000;
                
 
                 switch (input)
@@ -121,21 +121,87 @@ namespace TEXT_RPG
                         break;
                     case 2:
                         shop.GenerateShopItems();
-                        SceneManager.Instance().ShopLayout(shop);
+  
+                        SceneManager.Instance().InitShop(); //레이아웃 생성
+                        bool isRun2 = true;
+                        while (isRun2)
+                        {
+                            int i = SceneManager.Instance().SelectShop();
+                            Item item;
+                            string x;
+                            switch (i)
+                            {
+                                case 1:
+                                    item = SceneManager.Instance().ShopBuy(shop); //판매기능 아직 생성 안함 
+                                    x = shop.BuyS(item, player);
+                                    if (x[0] == '*')
+                                    {
+                                        x.Substring(1, x.Length - 1);
+                                        SceneManager.Instance().ShopResult(x,shop);
+
+                                    }
+                                 
+                                    else
+                                    {
+                                        int a=SceneManager.Instance().ShopSellConfirm(x);
+                                        if (a == 1)
+                                        {
+                                            //구매
+                                            SceneManager.Instance().ShopResult(shop.BuySC(item,player),shop);
+                                        }
+                                        //안 삼
+                                    }
+                                   
+                                    break;
+                                case 2:
+                                    item = SceneManager.Instance().ShopSell(player); //판매기능 
+                                    x = shop.SellS(item, player);
+                                    if (x[0] == '*')
+                                    {
+                                        x.Substring(1, x.Length - 1);
+                                        SceneManager.Instance().ShopResult(x, shop);
+
+                                    }
+
+                                    else
+                                    {
+                                        int a = SceneManager.Instance().ShopSellConfirm(x);
+                                        if (a == 1)
+                                        {
+                                            //구매
+                                            SceneManager.Instance().ShopResult(shop.SellSC(item, player), shop);
+                                        }
+                                        //안 삼
+                                    }
+                                    break;
+                                case 3:
+
+                                    isRun2 = false;
+                                    break;
+                            }
+                        }
                         //shop.ShowMenu(player); //상점 아이템 생성
                         break;
                     case 3:
                         bool isRun = true;
+                        SceneManager.Instance().InitPlayer();//레이아웃 생성
                         while (isRun)
                         {
-                           int i= SceneManager.Instance().PlayerLayout(); //레이아웃 생성
+                           int i= SceneManager.Instance().SelectPlayerLayout();  //레이아웃 확인
                             switch(i)
                             {
                                 case 1:
                                     SceneManager.Instance().StatLayout(player); //스텟 보여줌
                                     break;
                                 case 2:
-                                     SceneManager.Instance().InvenLayout(player); //인벤 보여줌(수정 필요)
+                                    while (true)
+                                    {
+                                        Item item2 = SceneManager.Instance().InvenLayout(player); //인벤 보여줌(수정 필요)
+                                        if (item2 == null)
+                                            break;
+                                        
+                                        inven.EquipS(player, item2);
+                                    }
                                     break;
                                 case 3:
                                     SceneManager.Instance().PSkillLayout(player); //스킬 보여줌
